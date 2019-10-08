@@ -1,0 +1,61 @@
+server:
+  port: 31001
+  tomcat:
+    uri-encoding: utf-8
+spring:
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,\
+      classpath:/static/,classpath:/public/,file:D:/file/
+#  datasource:
+#    url: jdbc:mysql://www.wuhourong.top:3306/blog?useSSL=true
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: wu
+#    password: 19980122
+  data:
+    mongodb:
+      database: xc_cms
+      host: www.wuhourong.top
+      port: 27017
+  mail:
+    host: smtp.qq.com
+    username: 876565575@qq.com
+    password: ilgwjrmihgkrbeic
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  servlet:
+    multipart:
+      #\u9650\u5236\u5355\u6587\u4EF6\u6700\u5927\u4E3A30M
+      max-file-size: 30MB
+
+
+#pagehelper:
+#  helper-dialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+
+
+#mybatis:
+#  #  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: classpath:mybatis/mapper/*.xml
+#  configuration:
+#    use-actual-param-name: true
+#    map-underscore-to-camel-case: true
+#    jdbc-type-for-null: null
+#    lazy-loading-enabled: true
+#    aggressive-lazy-loading: false
+#
+#mybatis-plus:
+#  # \u5982\u679C\u662F\u653E\u5728src/main/java\u76EE\u5F55\u4E0B classpath:/com/*/*/mapper/*Mapper.xml
+#  # \u5982\u679C\u662F\u653E\u5728resource\u76EE\u5F55 classpath:/mapper/**.xml
+#  mapper-locations: classpath:mybatis/mapper/*.xml
+
+logging:
+  level:
+    com.wu: debug
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} %msg%n'
