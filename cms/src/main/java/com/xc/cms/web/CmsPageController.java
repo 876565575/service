@@ -1,5 +1,4 @@
 package com.xc.cms.web;
-import java.util.List;
 
 import com.xc.cms.model.entity.CmsPage;
 import com.xc.cms.model.vo.PageQueryRequest;
@@ -27,11 +26,10 @@ public class CmsPageController {
     @Autowired
     CmsPageService cmsPageService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity query(@PathVariable("id") String id){
         return ResponseEntity.ok(cmsPageService.query(id));
     }
-
 
     @GetMapping("/list/{pageNum}/{pageSize}")
     public ResponseEntity findList(@PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize, PageQueryRequest pageQueryRequest){
@@ -42,4 +40,31 @@ public class CmsPageController {
         return ResponseEntity.ok(pageQueryResult);
     }
 
+    @GetMapping("/getHtml/{id}")
+    public ResponseEntity getHtml(@PathVariable("id") String id){
+
+        return ResponseEntity.ok("html" + id);
+    }
+
+    @DeleteMapping("/del/{id}")
+    public ResponseEntity remove(@PathVariable("id") String id){
+        cmsPageService.remove(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity edit(@RequestBody CmsPage cmsPage){
+        cmsPageService.edit(cmsPage);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity add(@RequestBody CmsPage cmsPage){
+        return ResponseEntity.ok(cmsPageService.add(cmsPage));
+    }
+
+    @PostMapping("/generateHtml/{id}")
+    public ResponseEntity generateHtml(@PathVariable("id") String id){
+        return ResponseEntity.ok().build();
+    }
 }

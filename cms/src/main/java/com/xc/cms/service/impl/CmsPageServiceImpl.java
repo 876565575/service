@@ -72,4 +72,23 @@ class CmsPageServiceImpl implements CmsPageService {
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public void remove(String id) {
+        cmsPageRepository.deleteById(id);
+    }
+
+    @Override
+    public void edit(CmsPage cmsPage) {
+        Optional<CmsPage> optional = cmsPageRepository.findById(cmsPage.getPageId());
+        if (optional.isPresent()) {
+            CmsPage oldCmsPage = optional.get();
+        }
+        cmsPageRepository.save(cmsPage);
+    }
+
+    @Override
+    public CmsPage add(CmsPage cmsPage) {
+        return cmsPageRepository.insert(cmsPage);
+    }
 }

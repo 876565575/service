@@ -36,5 +36,22 @@ public interface CmsPageService {
     CmsPage query(String id);
 
 
-    CmsPage remove(String id);
+    /**
+     * 根据id删除页面信息
+     * @param id
+     */
+    void remove(String id);
+
+    /**
+     * 修改页面信息
+     * @param cmsPage
+     */
+    void edit(CmsPage cmsPage);
+
+    /**
+     * 新增页面信息
+     * @param cmsPage
+     * @return
+     */
+    CmsPage add(CmsPage cmsPage);
 }
