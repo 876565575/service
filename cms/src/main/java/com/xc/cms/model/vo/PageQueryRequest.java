@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Id;
  * @version 1.0<br>
  * @taskId: <br>
  * @createDate 2019/09/22 14:56 <br>
- * @see com.xc.common.model.cms <br>
  */
 
 @Data
@@ -37,4 +36,15 @@ public class PageQueryRequest {
      */
     private String templateId;
 
+    /**
+     * 页面名称
+     */
+    private String pageName;
+
+    /**
+     * 页面类型
+     * 0：静态
+     * 1：动态
+     */
+    private String pageType;
 }

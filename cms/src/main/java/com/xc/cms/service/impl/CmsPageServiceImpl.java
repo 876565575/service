@@ -9,6 +9,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 /**
@@ -27,7 +28,7 @@ class CmsPageServiceImpl implements CmsPageService {
     CmsPageRepository cmsPageRepository;
 
     @Override
-    public Page<CmsPage> findList(Integer pageNum, Integer pageSize, PageQueryRequest pageQueryRequest) {
+    public Page<CmsPage> findList(Integer pageNum, Integer pageSize,@NotNull PageQueryRequest pageQueryRequest) {
         if (pageQueryRequest == null){
             pageQueryRequest = new PageQueryRequest();
         }
@@ -35,6 +36,7 @@ class CmsPageServiceImpl implements CmsPageService {
         //定义条件匹配器
         ExampleMatcher exampleMatcher = ExampleMatcher.matching();
         exampleMatcher = exampleMatcher.withMatcher("pageAliase", ExampleMatcher.GenericPropertyMatchers.contains());
+        exampleMatcher = exampleMatcher.withMatcher("pageName", ExampleMatcher.GenericPropertyMatchers.contains());
         //设置条件值
         CmsPage cmsPage = new CmsPage();
         if (!StringUtils.isEmpty(pageQueryRequest.getPageAliase())){
@@ -48,6 +50,12 @@ class CmsPageServiceImpl implements CmsPageService {
         }
         if (!StringUtils.isEmpty(pageQueryRequest.getTemplateId())) {
             cmsPage.setTemplateId(pageQueryRequest.getTemplateId());
+        }
+        if (!StringUtils.isEmpty(pageQueryRequest.getPageName())) {
+            cmsPage.setPageName(pageQueryRequest.getPageName());
+        }
+        if (!StringUtils.isEmpty(pageQueryRequest.getPageType())) {
+            cmsPage.setPageType(pageQueryRequest.getPageType());
         }
         //定义条件对象
         Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);

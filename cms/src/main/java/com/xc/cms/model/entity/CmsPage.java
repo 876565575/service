@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @version 1.0<br>
  * @taskId: <br>
  * @createDate 2019/09/22 14:58 <br>
- * @see com.xc.common.model.cms <br>
  */
 
 @Data
@@ -80,6 +79,9 @@ public class CmsPage {
      */
     private String templateId;
 
-
     private String htmlFileId;
+
+    private String dateUrl;
+
+
 }
