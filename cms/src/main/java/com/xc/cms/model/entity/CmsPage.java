@@ -81,7 +81,7 @@ public class CmsPage {
 
     private String htmlFileId;
 
-    private String dateUrl;
+    private String dataUrl;
 
 
 }

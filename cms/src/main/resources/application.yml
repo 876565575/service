@@ -29,8 +29,11 @@ spring:
             required: true
   servlet:
     multipart:
-      #\u9650\u5236\u5355\u6587\u4EF6\u6700\u5927\u4E3A30M
       max-file-size: 30MB
+  freemarker:
+    cache: false
+    settings:
+      template_update_delay: 0
 
 
 #pagehelper:

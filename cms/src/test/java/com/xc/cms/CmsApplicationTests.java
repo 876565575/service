@@ -18,8 +18,7 @@ public class CmsApplicationTests {
 
     @Test
     public void contextLoads() {
-        ResponseEntity<CmsConfig> forEntity = restTemplate.getForEntity("http://localhost:31001/cms/config/get/5a791725dd573c3574ee333f", CmsConfig.class);
-        System.out.println("forEntity = " + forEntity.getBody());
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.xc.cms.web;
 
+import cn.hutool.core.io.FileUtil;
 import com.xc.cms.model.entity.CmsPage;
 import com.xc.cms.model.vo.PageQueryRequest;
 import com.xc.cms.model.vo.PageQueryResult;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 
 /**
  * <Description> <br>
@@ -42,8 +45,9 @@ public class CmsPageController {
 
     @GetMapping("/getHtml/{id}")
     public ResponseEntity getHtml(@PathVariable("id") String id){
-
-        return ResponseEntity.ok("html" + id);
+        CmsPage cmsPage = cmsPageService.query(id);
+        File file = new File(cmsPage.getPagePhysicalPath() + cmsPage.getPageName());
+        return ResponseEntity.ok(FileUtil.readUtf8String(file));
     }
 
     @DeleteMapping("/del/{id}")
