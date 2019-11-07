@@ -17,12 +17,12 @@ public class CmsConfigModel {
     private String key;
 
     /**
-     * 项目名称
+     * 名称
      */
     private String name;
 
     /**
-     * 项目url
+     * url
      */
     private String url;
 

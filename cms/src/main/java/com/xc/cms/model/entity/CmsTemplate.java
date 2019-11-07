@@ -23,8 +23,24 @@ public class CmsTemplate {
      */
     @Id
     private String id;
+
+    /**
+     * 站点id
+     */
     private String siteId;
+
+    /**
+     * 模板名称
+     */
     private String templateName;
+
+    /**
+     * 模板参数
+     */
     private String templateParameter;
+
+    /**
+     * 模板文件id
+     */
     private String templateFileId;
 }

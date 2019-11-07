@@ -79,8 +79,14 @@ public class CmsPage {
      */
     private String templateId;
 
+    /**
+     * html静态文件id
+     */
     private String htmlFileId;
 
+    /**
+     * 数据接口url
+     */
     private String dataUrl;
 
 

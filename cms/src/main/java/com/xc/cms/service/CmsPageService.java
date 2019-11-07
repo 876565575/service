@@ -30,17 +30,17 @@ public interface CmsPageService {
 
     /**
      * 根据id查找页面信息
-     * @param id
+     * @param pageId
      * @return
      */
-    CmsPage query(String id);
+    CmsPage get(String pageId);
 
 
     /**
      * 根据id删除页面信息
-     * @param id
+     * @param pageId
      */
-    void remove(String id);
+    void remove(String pageId);
 
     /**
      * 修改页面信息
@@ -54,4 +54,11 @@ public interface CmsPageService {
      * @return
      */
     CmsPage add(CmsPage cmsPage);
+
+    /**
+     * 生成静态化页面
+     * @param pageId
+     * @return
+     */
+    String getPageHtml(String pageId);
 }

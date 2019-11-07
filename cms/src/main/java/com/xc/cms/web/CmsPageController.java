@@ -31,7 +31,7 @@ public class CmsPageController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity query(@PathVariable("id") String id){
-        return ResponseEntity.ok(cmsPageService.query(id));
+        return ResponseEntity.ok(cmsPageService.get(id));
     }
 
     @GetMapping("/list/{pageNum}/{pageSize}")
@@ -45,9 +45,8 @@ public class CmsPageController {
 
     @GetMapping("/getHtml/{id}")
     public ResponseEntity getHtml(@PathVariable("id") String id){
-        CmsPage cmsPage = cmsPageService.query(id);
-        File file = new File(cmsPage.getPagePhysicalPath() + cmsPage.getPageName());
-        return ResponseEntity.ok(FileUtil.readUtf8String(file));
+        String html = cmsPageService.getPageHtml(id);
+        return ResponseEntity.ok(html);
     }
 
     @DeleteMapping("/del/{id}")
