@@ -58,7 +58,22 @@ public interface CmsPageService {
     /**
      * 生成静态化页面
      * @param pageId
+     * @param template
      * @return
      */
-    String getPageHtml(String pageId);
+    String generateHtml(String pageId, String template);
+
+    /**
+     * 生成静态化页面
+     * @param pageId
+     * @return
+     */
+    String generateHtml(String pageId);
+
+    /**
+     * 获取页面的模板文件
+     * @param id
+     * @return
+     */
+    String getTemplateFile(String id);
 }

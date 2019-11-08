@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cms/config")
 public class CmsConfigController {
 
-    @Autowired
-    CmsConfigService cmsConfigService;
+    private final CmsConfigService cmsConfigService;
+
+    public CmsConfigController(CmsConfigService cmsConfigService) {
+        this.cmsConfigService = cmsConfigService;
+    }
 
     @GetMapping("/get/{id}")
     public ResponseEntity get(@PathVariable("id") String id){

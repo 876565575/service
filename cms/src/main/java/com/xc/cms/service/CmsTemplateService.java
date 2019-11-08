@@ -21,6 +21,19 @@ public interface CmsTemplateService {
     List<CmsTemplate> findAll();
 
     /**
+     * 获取模板文件信息
+     * @param tmepId
+     * @return
+     */
+    CmsTemplate get(String tmepId);
+
+    /**
+     * 获取文件
+     * @return
+     */
+    String getFile(String fileId);
+
+    /**
      * 分页查询模板信息
      * @param page
      * @param size

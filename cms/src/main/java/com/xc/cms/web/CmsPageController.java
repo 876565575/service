@@ -5,10 +5,13 @@ import com.xc.cms.model.entity.CmsPage;
 import com.xc.cms.model.vo.PageQueryRequest;
 import com.xc.cms.model.vo.PageQueryResult;
 import com.xc.cms.service.CmsPageService;
+import com.xc.cms.service.CmsTemplateService;
+import org.omg.CORBA.StringHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 
@@ -26,8 +29,12 @@ import java.io.File;
 @RequestMapping("/cms/page")
 public class CmsPageController {
 
-    @Autowired
-    CmsPageService cmsPageService;
+    private final CmsPageService cmsPageService;
+
+    public CmsPageController(CmsPageService cmsPageService) {
+        this.cmsPageService = cmsPageService;
+    }
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity query(@PathVariable("id") String id){
@@ -45,7 +52,7 @@ public class CmsPageController {
 
     @GetMapping("/getHtml/{id}")
     public ResponseEntity getHtml(@PathVariable("id") String id){
-        String html = cmsPageService.getPageHtml(id);
+        String html = cmsPageService.getTemplateFile(id);
         return ResponseEntity.ok(html);
     }
 
@@ -66,8 +73,9 @@ public class CmsPageController {
         return ResponseEntity.ok(cmsPageService.add(cmsPage));
     }
 
-    @PostMapping("/generateHtml/{id}")
-    public ResponseEntity generateHtml(@PathVariable("id") String id){
-        return ResponseEntity.ok().build();
+    @PostMapping("/generateHtml/{pageId}")
+    public ResponseEntity generateHtml(@PathVariable("pageId") String pageId, String template){
+        String html = cmsPageService.generateHtml(pageId, template);
+        return ResponseEntity.ok(html);
     }
 }

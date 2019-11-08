@@ -20,8 +20,12 @@ import java.util.List;
  */
 @Service
 public class CmsSiteServiceImpl implements CmsSiteService {
-    @Autowired
-    CmsSiteRepository cmsSiteRepository;
+
+    private final CmsSiteRepository cmsSiteRepository;
+
+    public CmsSiteServiceImpl(CmsSiteRepository cmsSiteRepository) {
+        this.cmsSiteRepository = cmsSiteRepository;
+    }
 
     @Override
     public List<CmsSite> findAll() {

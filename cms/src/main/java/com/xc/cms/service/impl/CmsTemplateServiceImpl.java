@@ -1,5 +1,9 @@
 package com.xc.cms.service.impl;
 
+import cn.hutool.core.io.IoUtil;
+import com.mongodb.client.gridfs.GridFSBucket;
+import com.mongodb.client.gridfs.GridFSDownloadStream;
+import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xc.cms.dao.CmsTemplateRepository;
 import com.xc.cms.model.entity.CmsTemplate;
 import com.xc.cms.model.vo.PageQueryRequest;
@@ -7,10 +11,12 @@ import com.xc.cms.model.vo.TemplateQueryRequest;
 import com.xc.cms.service.CmsTemplateService;
 import com.xc.common.exception.ExceptionEnum;
 import com.xc.common.exception.SysException;
+import kotlin.text.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +34,45 @@ import java.util.Optional;
 @Service
 public class CmsTemplateServiceImpl implements CmsTemplateService {
 
-    @Autowired
-    CmsTemplateRepository cmsTemplateRepository;
+    private final CmsTemplateRepository cmsTemplateRepository;
 
-    @Autowired
-    GridFsTemplate gridFsTemplate;
+    private final GridFsTemplate gridFsTemplate;
+
+    private final GridFSBucket gridFSBucket;
+
+    public CmsTemplateServiceImpl(CmsTemplateRepository cmsTemplateRepository, GridFsTemplate gridFsTemplate, GridFSBucket gridFSBucket) {
+        this.cmsTemplateRepository = cmsTemplateRepository;
+        this.gridFsTemplate = gridFsTemplate;
+        this.gridFSBucket = gridFSBucket;
+    }
 
     @Override
     public List<CmsTemplate> findAll() {
         return cmsTemplateRepository.findAll();
+    }
+
+    @Override
+    public CmsTemplate get(String tempId) {
+        Optional<CmsTemplate> optional = cmsTemplateRepository.findById(tempId);
+        if (!optional.isPresent()) {
+            throw new SysException(ExceptionEnum.NOT_FIND);
+        }
+        return optional.get();
+    }
+
+    @Override
+    public String getFile(String fileId) {
+        GridFSFile gridFSFile = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(fileId)));
+        GridFSDownloadStream downloadStream = gridFSBucket.openDownloadStream(gridFSFile.getObjectId());
+        GridFsResource gridFsResource = new GridFsResource(gridFSFile, downloadStream);
+        try {
+            InputStream inputStream = gridFsResource.getInputStream();
+            String template = IoUtil.read(inputStream, Charsets.UTF_8);
+            inputStream.close();
+            return template;
+        }catch (Exception e) {
+            throw new SysException(ExceptionEnum.NOT_FIND);
+        }
     }
 
     @Override

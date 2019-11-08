@@ -18,8 +18,11 @@ import java.util.Map;
 @RequestMapping("/cms/freemarker")
 public class FreemarkerController {
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    public FreemarkerController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping("/banner")
     public String banner(Map<String, Object> map){

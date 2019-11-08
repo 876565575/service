@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/cms/site")
 public class CmsSiteController {
-    @Autowired
-    CmsSiteService cmsSiteService;
+    private final CmsSiteService cmsSiteService;
+
+    public CmsSiteController(CmsSiteService cmsSiteService) {
+        this.cmsSiteService = cmsSiteService;
+    }
 
 
     @GetMapping("/list")

@@ -1,6 +1,7 @@
 package com.xc.cms.web;
 
 import com.xc.cms.model.entity.CmsTemplate;
+import com.xc.cms.model.vo.CmsTemplateRequest;
 import com.xc.cms.model.vo.PageQueryRequest;
 import com.xc.cms.model.vo.PageQueryResult;
 import com.xc.cms.model.vo.TemplateQueryRequest;
@@ -25,8 +26,11 @@ import java.io.InputStream;
 @RequestMapping("/cms/temp")
 public class CmsTemplateController {
 
-    @Autowired
-    CmsTemplateService cmsTemplateService;
+    private final CmsTemplateService cmsTemplateService;
+
+    public CmsTemplateController(CmsTemplateService cmsTemplateService) {
+        this.cmsTemplateService = cmsTemplateService;
+    }
 
     @GetMapping("/list")
     public ResponseEntity all(){
@@ -56,6 +60,8 @@ public class CmsTemplateController {
 
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody CmsTemplateRequest cmsTemplateRequest){
+
+
         if (StringUtils.isEmpty(cmsTemplateRequest.getCmsTemplate().getId()) || StringUtils.isEmpty(cmsTemplateRequest.getNewTemplateFileId())){
             return ResponseEntity.badRequest().build();
         }
@@ -74,11 +80,4 @@ public class CmsTemplateController {
         return ResponseEntity.ok().build();
     }
 
-
-}
-
-@Data
-class CmsTemplateRequest{
-    private CmsTemplate cmsTemplate;
-    private String newTemplateFileId;
 }

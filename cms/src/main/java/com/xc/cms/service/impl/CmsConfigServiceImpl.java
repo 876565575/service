@@ -18,8 +18,11 @@ import java.util.Optional;
 @Service
 public class CmsConfigServiceImpl implements CmsConfigService {
 
-    @Autowired
-    CmsConfigRepository cmsConfigRepository;
+    private final CmsConfigRepository cmsConfigRepository;
+
+    public CmsConfigServiceImpl(CmsConfigRepository cmsConfigRepository) {
+        this.cmsConfigRepository = cmsConfigRepository;
+    }
 
     @Override
     public CmsConfig getConfigById(String id) {
