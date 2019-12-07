@@ -1,5 +1,6 @@
-package com.xc.cms.model.entity;
+package com.xc.common.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
@@ -72,6 +73,7 @@ public class CmsPage {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private String pageCreateTime;
 
     /**

@@ -1,6 +1,6 @@
 package com.xc.cms.dao;
 
-import com.xc.cms.model.entity.CmsSite;
+import com.xc.common.model.entity.CmsSite;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

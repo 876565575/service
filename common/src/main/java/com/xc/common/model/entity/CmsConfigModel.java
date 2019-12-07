@@ -1,4 +1,4 @@
-package com.xc.cms.model.entity;
+package com.xc.common.model.entity;
 
 import lombok.Data;
 

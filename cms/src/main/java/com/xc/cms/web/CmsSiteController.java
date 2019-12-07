@@ -1,10 +1,8 @@
 package com.xc.cms.web;
 
-import com.xc.cms.model.entity.CmsSite;
-import com.xc.cms.model.vo.PageQueryResult;
+import com.xc.common.model.entity.CmsSite;
+import com.xc.cms.model.vo.QueryResult;
 import com.xc.cms.service.CmsSiteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +27,15 @@ public class CmsSiteController {
     }
 
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     public ResponseEntity findAll(){
         return ResponseEntity.ok(cmsSiteService.findAll());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity list(Integer pageNum, Integer pageSize){
+        QueryResult queryResult = cmsSiteService.list(pageNum, pageSize);
+        return ResponseEntity.ok(queryResult);
     }
 
 }

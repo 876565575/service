@@ -1,5 +1,6 @@
-package com.xc.cms.model.entity;
+package com.xc.common.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -12,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @version 1.0<br>
  * @taskId: <br>
  * @createDate 2019/09/24 0:23 <br>
- * @see com.xc.cms.model.entity <br>
+ * @see com.xc.common.model.entity <br>
  */
 @NoArgsConstructor
 @Data
@@ -45,5 +46,6 @@ public class CmsSite {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private String siteCreateTime;
 }

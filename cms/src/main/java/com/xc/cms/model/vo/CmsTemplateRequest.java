@@ -1,6 +1,6 @@
 package com.xc.cms.model.vo;
 
-import com.xc.cms.model.entity.CmsTemplate;
+import com.xc.common.model.entity.CmsTemplate;
 import lombok.Data;
 
 /**

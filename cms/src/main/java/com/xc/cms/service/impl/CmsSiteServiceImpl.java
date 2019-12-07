@@ -1,10 +1,11 @@
 package com.xc.cms.service.impl;
 
 import com.xc.cms.dao.CmsSiteRepository;
-import com.xc.cms.model.entity.CmsSite;
+import com.xc.common.model.entity.CmsSite;
+import com.xc.cms.model.vo.QueryResult;
 import com.xc.cms.service.CmsSiteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,5 +31,14 @@ public class CmsSiteServiceImpl implements CmsSiteService {
     @Override
     public List<CmsSite> findAll() {
         return cmsSiteRepository.findAll();
+    }
+
+    @Override
+    public QueryResult list(Integer pageNum, Integer pageSize) {
+        Page<CmsSite> page = cmsSiteRepository.findAll(PageRequest.of(pageNum - 1, pageSize));
+        QueryResult queryResult = new QueryResult();
+        queryResult.setTotal(page.getTotalElements());
+        queryResult.setList(page.getContent());
+        return queryResult;
     }
 }

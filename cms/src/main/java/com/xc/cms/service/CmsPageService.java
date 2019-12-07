@@ -1,10 +1,8 @@
 package com.xc.cms.service;
 
-import com.xc.cms.model.entity.CmsPage;
+import com.xc.common.model.entity.CmsPage;
 import com.xc.cms.model.vo.PageQueryRequest;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * <Description> <br>
@@ -76,4 +74,10 @@ public interface CmsPageService {
      * @return
      */
     String getTemplateFile(String id);
+
+    /**
+     * 发布页面
+     * @param PageId
+     */
+    void postPage(String PageId);
 }

@@ -1,13 +1,14 @@
 package com.xc.cms.web;
 
-import com.xc.cms.model.entity.CmsConfig;
+import com.xc.common.model.entity.CmsConfig;
 import com.xc.cms.service.CmsConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 /**
  * @author : 吴后荣
@@ -27,5 +28,12 @@ public class CmsConfigController {
     @GetMapping("/get/{id}")
     public ResponseEntity get(@PathVariable("id") String id){
         return ResponseEntity.ok(cmsConfigService.getConfigById(id));
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity test(){
+        HashMap<String, Object> map = new HashMap<>(1);
+        map.put("name", "小明");
+        return ResponseEntity.ok(map);
     }
 }

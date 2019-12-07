@@ -1,6 +1,6 @@
 package com.xc.cms.service;
 
-import com.xc.cms.model.entity.CmsConfig;
+import com.xc.common.model.entity.CmsConfig;
 
 /**
  * @author : 吴后荣

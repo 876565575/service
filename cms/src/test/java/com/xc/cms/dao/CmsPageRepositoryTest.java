@@ -1,13 +1,12 @@
 package com.xc.cms.dao;
 
-import com.xc.cms.model.entity.CmsPage;
+import com.xc.common.model.entity.CmsPage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;

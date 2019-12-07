@@ -1,15 +1,15 @@
 package com.xc.cms.service.impl;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.extra.template.engine.freemarker.FreemarkerTemplate;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.mongodb.client.gridfs.GridFSBucket;
-import com.mongodb.client.gridfs.GridFSDownloadStream;
-import com.mongodb.client.gridfs.model.GridFSFile;
+import com.xc.cms.config.AmqpConfig;
 import com.xc.cms.dao.CmsPageRepository;
 import com.xc.cms.dao.CmsTemplateRepository;
-import com.xc.cms.model.entity.CmsConfig;
-import com.xc.cms.model.entity.CmsPage;
-import com.xc.cms.model.entity.CmsTemplate;
+import com.xc.common.model.entity.CmsConfig;
+import com.xc.common.model.entity.CmsPage;
+import com.xc.common.model.entity.CmsTemplate;
 import com.xc.cms.model.vo.PageQueryRequest;
 import com.xc.cms.service.CmsPageService;
 import com.xc.cms.service.CmsTemplateService;
@@ -18,14 +18,14 @@ import com.xc.common.exception.SysException;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import kotlin.text.Charsets;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,11 +33,9 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import javax.sound.midi.SysexMessage;
 import javax.validation.constraints.NotNull;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -71,6 +69,10 @@ class CmsPageServiceImpl implements CmsPageService {
 
     @Autowired
     CmsTemplateService cmsTemplateService;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
 
     @Override
     public Page<CmsPage> findList(Integer pageNum, Integer pageSize,@NotNull PageQueryRequest pageQueryRequest) {
@@ -230,5 +232,13 @@ class CmsPageServiceImpl implements CmsPageService {
         }
     }
 
-
+    @Override
+    public void postPage(String pageId) {
+        this.generateHtml(pageId);
+        Map<String, String> map = new HashMap<>();
+        map.put("pageId", pageId);
+        JSONObject jsonObject = JSONUtil.parseFromMap(map);
+        String message = jsonObject.toString();
+        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "cms",message);
+    }
 }

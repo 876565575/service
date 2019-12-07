@@ -1,12 +1,10 @@
 package com.xc.cms.dao;
 
-import com.xc.cms.model.entity.CmsPage;
+import com.xc.common.model.entity.CmsPage;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <Description> <br>

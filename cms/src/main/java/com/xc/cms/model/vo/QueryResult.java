@@ -14,7 +14,7 @@ import java.util.List;
  * @see com.xc.cms.model.vo <br>
  */
 @Data
-public class PageQueryResult {
+public class QueryResult {
 
     private Long total;
 

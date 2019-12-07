@@ -34,6 +34,10 @@ spring:
     cache: false
     settings:
       template_update_delay: 0
+  rabbitmq:
+    host: www.wuhourong.top
+    username: wu
+    password: Wu19980122
 
 
 #pagehelper:

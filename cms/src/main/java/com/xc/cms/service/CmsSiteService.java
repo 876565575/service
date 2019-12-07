@@ -1,7 +1,7 @@
 package com.xc.cms.service;
 
-import com.xc.cms.model.entity.CmsSite;
-import org.springframework.data.domain.Page;
+import com.xc.common.model.entity.CmsSite;
+import com.xc.cms.model.vo.QueryResult;
 
 import java.util.List;
 
@@ -20,4 +20,12 @@ public interface CmsSiteService {
      * @return
      */
     List<CmsSite> findAll();
+
+    /**
+     * 分页查询站点信息
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    QueryResult list(Integer pageNum, Integer pageSize);
 }
