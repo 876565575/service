@@ -28,4 +28,11 @@ public interface CourseBaseService extends IService<CourseBase> {
      * @return CourseBase
      */
     CourseBase selectById(String courseId);
+
+    /**
+     * 新增课程基本信息，并添加课程计划根节点
+     * @param courseBase 课程基本信息
+     * @return 成功返回true， 失败抛出异常
+     */
+    Boolean add(CourseBase courseBase);
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author : 吴后荣
@@ -53,18 +54,18 @@ public class CourseMarket {
     /**
      * 原价
      */
-    @TableField("price_old")
+    @TableField(value = "price_old")
     private float priceOld;
 
     /**
      * 课程有效期-开始时间
      */
-    @TableField("start_time")
+    @TableField(value = "start_time")
     private LocalDateTime startTime;
 
     /**
      * 课程有效期-结束时间
      */
-    @TableField("end_time")
+    @TableField(value = "end_time")
     private LocalDateTime endTime;
 }
