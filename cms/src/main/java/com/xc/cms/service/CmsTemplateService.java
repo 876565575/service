@@ -1,7 +1,7 @@
 package com.xc.cms.service;
 
-import com.xc.common.model.entity.CmsTemplate;
-import com.xc.cms.model.vo.TemplateQueryRequest;
+import com.xc.model.cms.CmsTemplate;
+import com.xc.model.cms.request.TemplateQueryRequest;
 import org.springframework.data.domain.Page;
 
 import java.io.InputStream;

@@ -1,11 +1,9 @@
 package com.xc.cms.web;
 
-import com.xc.common.model.entity.CmsPage;
-import com.xc.cms.model.vo.PageQueryRequest;
-import com.xc.cms.model.vo.QueryResult;
+import com.xc.model.cms.CmsPage;
+import com.xc.model.cms.request.PageQueryRequest;
+import com.xc.model.cms.response.QueryResult;
 import com.xc.cms.service.CmsPageService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

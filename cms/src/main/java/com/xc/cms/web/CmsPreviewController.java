@@ -1,6 +1,7 @@
 package com.xc.cms.web;
 
 import com.xc.cms.service.CmsPageService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.io.PrintWriter;
  * @date : 2019/11/23 17:47
  * @description :
  */
+@Api("页面预览")
 @Controller
 @RequestMapping("/cms/preview")
 public class CmsPreviewController {

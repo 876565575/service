@@ -1,7 +1,7 @@
 package com.xc.cms.web;
 
-import com.xc.common.model.entity.CmsConfig;
 import com.xc.cms.service.CmsConfigService;
+import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/cms/config")
+
 public class CmsConfigController {
 
     private final CmsConfigService cmsConfigService;

@@ -1,7 +1,7 @@
 package com.xc.cms.service;
 
-import com.xc.common.model.entity.CmsPage;
-import com.xc.cms.model.vo.PageQueryRequest;
+import com.xc.model.cms.CmsPage;
+import com.xc.model.cms.request.PageQueryRequest;
 import org.springframework.data.domain.Page;
 
 /**

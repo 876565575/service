@@ -1,6 +1,6 @@
 package com.xc.cms.dao;
 
-import com.xc.common.model.entity.CmsPage;
+import com.xc.model.cms.CmsPage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

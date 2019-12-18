@@ -1,9 +1,9 @@
 package com.xc.cms.web;
 
-import com.xc.common.model.entity.CmsTemplate;
-import com.xc.cms.model.vo.CmsTemplateRequest;
-import com.xc.cms.model.vo.QueryResult;
-import com.xc.cms.model.vo.TemplateQueryRequest;
+import com.xc.model.cms.CmsTemplate;
+import com.xc.model.cms.request.CmsTemplateRequest;
+import com.xc.model.cms.response.QueryResult;
+import com.xc.model.cms.request.TemplateQueryRequest;
 import com.xc.cms.service.CmsTemplateService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.xc.cms.service.impl;
 
 import com.xc.cms.dao.CmsSiteRepository;
-import com.xc.common.model.entity.CmsSite;
-import com.xc.cms.model.vo.QueryResult;
+import com.xc.model.cms.CmsSite;
+import com.xc.model.cms.response.QueryResult;
 import com.xc.cms.service.CmsSiteService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

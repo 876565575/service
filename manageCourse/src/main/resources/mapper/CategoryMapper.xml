@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xc.course.mapper.CategoryMapper">
+    <resultMap id="CategoryNode" type="com.xc.model.course.ext.CategoryNode">
+        <id column="one_id" property="id"/>
+        <result column="one_label" property="label"/>
+        <result column="one_name" property="name"/>
+        <collection property="children" ofType="com.xc.model.course.ext.CategoryNode">
+            <id column="two_id" property="id"/>
+            <result column="two_label" property="label"/>
+            <result column="two_name" property="name"/>
+            <collection property="children" ofType="com.xc.model.course.ext.CategoryNode">
+                <id column="three_id" property="id"/>
+                <result column="three_label" property="label"/>
+                <result column="three_name" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findCategoryList" resultMap="CategoryNode">
+        select
+        c1.id one_id, c1.label one_label, c1.name one_name, c2.id two_id, c2.label two_label, c2.name two_name, c3.id three_id, c3.label three_label, c3.name three_name
+        from category c1
+        left join category c2 on c2.parentid = c1.id and c2.isshow = 1
+        left join category c3 on c3.parentid = c2.id and c3.isshow = 1
+        where c1.parentid = 0 and c1.isshow = 1
+        order by c2.orderby, c3.orderby
+    </select>
+</mapper>

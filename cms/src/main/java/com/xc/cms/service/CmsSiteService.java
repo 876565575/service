@@ -1,7 +1,7 @@
 package com.xc.cms.service;
 
-import com.xc.common.model.entity.CmsSite;
-import com.xc.cms.model.vo.QueryResult;
+import com.xc.model.cms.CmsSite;
+import com.xc.model.cms.response.QueryResult;
 
 import java.util.List;
 

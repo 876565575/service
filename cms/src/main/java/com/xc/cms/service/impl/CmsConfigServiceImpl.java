@@ -1,10 +1,10 @@
 package com.xc.cms.service.impl;
 
 import com.xc.cms.dao.CmsConfigRepository;
-import com.xc.common.model.entity.CmsConfig;
 import com.xc.cms.service.CmsConfigService;
 import com.xc.common.exception.ExceptionEnum;
 import com.xc.common.exception.SysException;
+import com.xc.model.cms.CmsConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

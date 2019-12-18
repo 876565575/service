@@ -1,16 +1,15 @@
 package com.xc.cms.service.impl;
 
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.xc.cms.config.AmqpConfig;
 import com.xc.cms.dao.CmsPageRepository;
 import com.xc.cms.dao.CmsTemplateRepository;
-import com.xc.common.model.entity.CmsConfig;
-import com.xc.common.model.entity.CmsPage;
-import com.xc.common.model.entity.CmsTemplate;
-import com.xc.cms.model.vo.PageQueryRequest;
+import com.xc.model.cms.CmsConfig;
+import com.xc.model.cms.CmsPage;
+import com.xc.model.cms.CmsTemplate;
+import com.xc.model.cms.request.PageQueryRequest;
 import com.xc.cms.service.CmsPageService;
 import com.xc.cms.service.CmsTemplateService;
 import com.xc.common.exception.ExceptionEnum;
@@ -22,7 +21,6 @@ import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -75,7 +73,7 @@ class CmsPageServiceImpl implements CmsPageService {
 
 
     @Override
-    public Page<CmsPage> findList(Integer pageNum, Integer pageSize,@NotNull PageQueryRequest pageQueryRequest) {
+    public Page<CmsPage> findList(Integer pageNum, Integer pageSize, @NotNull PageQueryRequest pageQueryRequest) {
         if (pageQueryRequest == null){
             pageQueryRequest = new PageQueryRequest();
         }

@@ -1,7 +1,6 @@
 package com.xc.cms.web;
 
-import com.xc.common.model.entity.CmsSite;
-import com.xc.cms.model.vo.QueryResult;
+import com.xc.model.cms.response.QueryResult;
 import com.xc.cms.service.CmsSiteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
