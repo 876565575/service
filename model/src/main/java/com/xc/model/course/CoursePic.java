@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class CoursePic {
 
 
-    @TableId
+    @TableId(value = "courseid")
     private String courseId;
 
     /**

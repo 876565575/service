@@ -1,0 +1,14 @@
+server:
+  port: 31004
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size:  20MB
+qiniu:
+  accessKey: kA8MnsRPNfuKeEm35asTPqZoWybpuQybJ45UfATC
+  secretKey: r7KnLdnyo1CtrkOmhBjF8w1uMc6HDz32oQVuJN41
+  bucket: whrdfs

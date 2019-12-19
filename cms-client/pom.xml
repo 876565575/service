@@ -7,7 +7,6 @@
         <artifactId>service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.xc</groupId>
     <artifactId>cms-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cms-client</name>
@@ -23,6 +22,14 @@
             <groupId>com.xc</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.amqp</groupId>
