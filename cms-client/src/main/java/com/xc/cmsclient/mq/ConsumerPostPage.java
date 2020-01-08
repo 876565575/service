@@ -20,9 +20,8 @@ public class ConsumerPostPage {
     PageService pageService;
 
     @RabbitListener(queues = {"${xc.mq.queue}"})
-    public void postPage(String message) {
-        Map map = JSONUtil.toBean(message, Map.class);
-        String pageId = (String) map.get("pageId");
+    public void postPage(Map<String, String> map) {
+        String pageId = map.get("pageId");
         pageService.publishPage(pageId);
     }
 }

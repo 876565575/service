@@ -27,7 +27,7 @@ public class CmsPage {
      * pageName : index.html
      * pageAliase : 首页
      * pageWebPath : /index.html
-     * pagePhysicalPath : F:\develop\xc_portal_static\
+     * sitePhysicalPath : F:\develop\xc_portal_static\
      * pageType : 0
      * pageCreateTime : 2018-02-03T05:37:53.256+0000
      * templateId : 5a962b52b00ffc514038faf7

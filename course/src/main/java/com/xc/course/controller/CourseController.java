@@ -7,26 +7,35 @@ import com.xc.common.model.response.CommonCode;
 import com.xc.common.model.response.QueryResponseResult;
 import com.xc.common.model.response.QueryResult;
 import com.xc.common.model.response.ResponseResult;
+import com.xc.course.feign.CmsPageClient;
 import com.xc.course.mapper.CourseBaseMapper;
 import com.xc.course.service.CourseBaseService;
 import com.xc.course.service.CourseMarketService;
 import com.xc.course.service.CoursePicService;
 import com.xc.course.service.TeachPlanService;
+import com.xc.model.cms.CmsPage;
 import com.xc.model.course.CourseBase;
 import com.xc.model.course.CourseMarket;
 import com.xc.model.course.CoursePic;
 import com.xc.model.course.TeachPlan;
+import com.xc.model.course.ext.CourseInfo;
+import com.xc.model.course.ext.TeachPlanNode;
 import com.xc.model.course.response.CourseCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : 吴后荣
@@ -38,6 +47,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/course")
 public class CourseController {
+
+
+    @Value("${course-publish.templateId}")
+    private String templateId;
+
+    @Value("${course-publish.siteId}")
+    private String siteId;
+
+    @Value("${course-publish.previewUrl}")
+    private String previewUrl;
+
+    @Value("${course-publish.pageWebPath}")
+    private String pageWebPath;
+
+    @Value("${course-publish.pagePhysicalPath}")
+    private String pagePhysicalPath;
+
+    @Value("${course-publish.dataUrl}")
+    private String dataUrl;
 
     @Autowired
     CourseBaseService courseBaseService;
@@ -51,6 +79,9 @@ public class CourseController {
     @Autowired
     CoursePicService coursePicService;
 
+    @Autowired
+    CmsPageClient cmsPageClient;
+
     @ApiOperation("分页查询课程基本信息")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", value = "页码", paramType = "path", required = true, dataTypeClass = Integer.class),
@@ -58,8 +89,8 @@ public class CourseController {
         @ApiImplicitParam(name = "courseBase", value = "课程基本信息实体类", paramType = "query", required = false, dataTypeClass = CourseBase.class)})
     @GetMapping("/coursebase/list/{page}/{size}")
     public ResponseEntity<QueryResponseResult> listCourseBase(@PathVariable("page") Integer page, @PathVariable("size") Integer size, CourseBase courseBase) {
-        PageInfo<CourseBase> pageInfo = courseBaseService.findCourseBaseList(page, size, courseBase);
-        QueryResult<CourseBase> queryResult = new QueryResult<>();
+        PageInfo<CourseInfo> pageInfo = courseBaseService.findCourseBaseList(page, size, courseBase);
+        QueryResult<CourseInfo> queryResult = new QueryResult<>();
         queryResult.setList(pageInfo.getList());
         queryResult.setTotal(pageInfo.getTotal());
         QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
@@ -77,6 +108,7 @@ public class CourseController {
     @ApiImplicitParam(name = "courseBase", value = "课程基本信息", paramType = "body", required = true, dataTypeClass = CourseBase.class)
     @PostMapping("/coursebase/add")
     public ResponseEntity addCourseBase(@RequestBody CourseBase courseBase){
+        courseBase.setStatus("202001");
         courseBaseService.add(courseBase);
         return ResponseEntity.ok(new ResponseResult(CommonCode.SUCCESS));
     }
@@ -139,5 +171,67 @@ public class CourseController {
     public ResponseEntity deleteCoursePic(String courseId) {
         coursePicService.removeById(courseId);
         return ResponseEntity.ok(new ResponseResult(CommonCode.SUCCESS));
+    }
+
+    @ApiOperation("获取课程的基本信息、图片、课程计划、营销信息")
+    @ApiImplicitParam(name = "courseId", value = "课程id", paramType = "path", required = true, dataTypeClass = String.class)
+    @GetMapping("/allInfo/{courseId}")
+    public ResponseEntity getAllInfo(@PathVariable("courseId") String courseId) {
+        CourseMarket courseMarket = courseMarketService.getById(courseId);
+        CoursePic coursePic = coursePicService.getById(courseId);
+        CourseBase courseBase = courseBaseService.selectById(courseId);
+        TeachPlanNode teachplanNode = teachPlanService.findTeachPlanList(courseId);
+        HashMap<String, Object> map = new HashMap<>(4);
+        map.put("courseMarket", courseMarket);
+        map.put("coursePic", coursePic);
+        map.put("courseBase", courseBase);
+        map.put("teachplanNode", teachplanNode);
+        return ResponseEntity.ok(map);
+    }
+
+    @ApiOperation("页面预览，返回预览url")
+    @ApiImplicitParam(name = "courseId", value = "课程id", paramType = "path", required = true, dataTypeClass = String.class)
+    @PostMapping("/preview/{courseId}")
+    public ResponseEntity preview(@PathVariable("courseId") String courseId) {
+        CourseBase courseBase = courseBaseService.getById(courseId);
+
+        CmsPage cmsPage = new CmsPage();
+        cmsPage.setSiteId(siteId);
+        cmsPage.setTemplateId(templateId);
+        cmsPage.setPageName(courseId + ".html");
+        cmsPage.setPageWebPath(pageWebPath);
+        cmsPage.setPagePhysicalPath(pagePhysicalPath);
+        cmsPage.setDataUrl(dataUrl + courseId);
+        cmsPage.setPageAliase(courseBase.getName());
+        cmsPage.setPageType("2");
+        cmsPage.setPageCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+
+        String pageId = cmsPageClient.save(cmsPage).getPageId();
+        return ResponseEntity.ok(previewUrl + pageId);
+    }
+
+    @ApiOperation("页面发布，返回访问地址")
+    @ApiImplicitParam(name = "courseId", value = "课程id", paramType = "path", required = true, dataTypeClass = String.class)
+    @PostMapping("/publish/{courseId}")
+    public ResponseEntity publish(@PathVariable("courseId") String courseId) {
+
+        CourseBase courseBase = courseBaseService.getById(courseId);
+        CmsPage cmsPage = new CmsPage();
+        cmsPage.setSiteId(siteId);
+        cmsPage.setTemplateId(templateId);
+        cmsPage.setPageName(courseId + ".html");
+        cmsPage.setPageWebPath(pageWebPath);
+        cmsPage.setPagePhysicalPath(pagePhysicalPath);
+        cmsPage.setDataUrl(dataUrl + courseId);
+        cmsPage.setPageAliase(courseBase.getName());
+        cmsPage.setPageType("2");
+        cmsPage.setPageCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+        String url = cmsPageClient.publishPage(cmsPage);
+
+        //修改课程状态为已发布
+        courseBase.setStatus("202002");
+        courseBaseService.updateById(courseBase);
+
+        return ResponseEntity.ok(url);
     }
 }

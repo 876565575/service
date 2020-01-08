@@ -80,4 +80,10 @@ public interface CmsPageService {
      * @param PageId
      */
     void postPage(String PageId);
+
+    /**
+     * 保存，如果已经存在，则修改
+     * @param cmsPage
+     */
+    void save(CmsPage cmsPage);
 }

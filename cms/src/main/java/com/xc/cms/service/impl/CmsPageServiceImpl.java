@@ -34,6 +34,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.constraints.NotNull;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -155,11 +156,11 @@ class CmsPageServiceImpl implements CmsPageService {
         // 获取页面信息
         CmsPage cmsPage = this.get(pageId);
         // 获得页面数据
-        CmsConfig cmsConfig = this.getModelByPageId(pageId);
+        Map model = this.getModelByPageId(pageId);
         // 获取模板信息
         CmsTemplate cmsTemplate = cmsTemplateService.get(cmsPage.getTemplateId());
         String template = cmsTemplateService.getFile(cmsTemplate.getTemplateFileId());
-        String html = this.staticize(template, cmsConfig);
+        String html = this.staticize(template, model);
         //保存html至文件服务器
         ObjectId htmlFileId = gridFsTemplate.store(new ByteArrayInputStream(html.getBytes()), cmsPage.getPageName());
         //修改页面信息
@@ -175,8 +176,8 @@ class CmsPageServiceImpl implements CmsPageService {
         // 获取页面信息
         CmsPage cmsPage = this.get(pageId);
         // 获得页面数据
-        CmsConfig cmsConfig = this.getModelByPageId(pageId);
-        String html = this.staticize(template, cmsConfig);
+        Map model = this.getModelByPageId(pageId);
+        String html = this.staticize(template, model);
         //保存html至文件服务器
         ObjectId htmlFileId = gridFsTemplate.store(new ByteArrayInputStream(html.getBytes()), cmsPage.getPageName());
         //修改页面信息
@@ -198,20 +199,20 @@ class CmsPageServiceImpl implements CmsPageService {
      * @param pageId
      * @return
      */
-    private CmsConfig getModelByPageId(String pageId){
+    private Map getModelByPageId(String pageId){
         CmsPage cmsPage = this.get(pageId);
         String dataUrl = cmsPage.getDataUrl();
-        ResponseEntity<CmsConfig> forEntity = restTemplate.getForEntity(dataUrl, CmsConfig.class);
+        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl, Map.class);
         return forEntity.getBody();
     }
 
     /**
      * 执行静态化
      * @param template
-     * @param cmsConfig
+     * @param model
      * @return
      */
-    private String staticize(String template, CmsConfig cmsConfig){
+    private String staticize(String template, Map model){
         try {
             //创建配置类
             Configuration configuration = new Configuration(Configuration.getVersion());
@@ -223,7 +224,7 @@ class CmsPageServiceImpl implements CmsPageService {
             //获取模板
             Template template1 = configuration.getTemplate("html");
             //执行静态化
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template1, cmsConfig);
+            return FreeMarkerTemplateUtils.processTemplateIntoString(template1, model);
         }catch (Exception e){
             log.error("静态化失败!", e);
             throw new SysException(ExceptionEnum.FAILED);
@@ -235,8 +236,18 @@ class CmsPageServiceImpl implements CmsPageService {
         this.generateHtml(pageId);
         Map<String, String> map = new HashMap<>();
         map.put("pageId", pageId);
-        JSONObject jsonObject = JSONUtil.parseFromMap(map);
-        String message = jsonObject.toString();
-        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "cms",message);
+        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "cms",map);
+    }
+
+    @Override
+    public void save(CmsPage cmsPage) {
+        Optional<CmsPage> optional = cmsPageRepository.findByPageNameAndPagePhysicalPathAndPageWebPath(cmsPage.getPageName(), cmsPage.getPagePhysicalPath(), cmsPage.getPageWebPath());
+        if (!optional.isPresent()) {
+            //不存在
+            cmsPageRepository.save(cmsPage);
+        }else {
+            cmsPage.setPageId(optional.get().getPageId());
+            cmsPageRepository.save(cmsPage);
+        }
     }
 }

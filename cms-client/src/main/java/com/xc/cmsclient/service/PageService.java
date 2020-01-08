@@ -6,7 +6,8 @@ import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xc.cmsclient.dao.CmsPageRepository;
 import com.xc.cmsclient.dao.CmsSiteRepository;
-import com.xc.common.model.entity.CmsPage;
+import com.xc.model.cms.CmsPage;
+import com.xc.model.cms.CmsSite;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -41,7 +42,7 @@ public class PageService {
 
     public void publishPage(String pageId) {
         //获取页面信息
-        Optional<CmsPage> cmsPageOptional = cmsPageRepository.findById(pageId);
+        Optional<CmsPage> cmsPageOptional =  cmsPageRepository.findById(pageId);
         if (!cmsPageOptional.isPresent()) {
             log.error("cmsPage is null，pageId: {}", pageId);
             return;
@@ -53,8 +54,15 @@ public class PageService {
             log.error("htmlFile inputStream is null, htmlFileId :{}", cmsPage.getHtmlFileId());
             return;
         }
+
+        Optional<CmsSite> optionalCmsSite = cmsSiteRepository.findById(cmsPage.getSiteId());
+        if (!optionalCmsSite.isPresent()) {
+            log.error("cmsSite is null，siteId: {}", cmsPage.getSiteId());
+            return;
+        }
+        CmsSite cmsSite = optionalCmsSite.get();
         //拼接页面物理路径
-        String targetPath = cmsPage.getPagePhysicalPath() + cmsPage.getPageWebPath() + cmsPage.getPageName();
+        String targetPath = cmsSite.getSitePhysicalPath() + cmsPage.getPageWebPath() + cmsPage.getPageName();
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(new File(targetPath));

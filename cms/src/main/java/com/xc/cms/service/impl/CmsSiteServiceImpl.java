@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <Description> <br>
@@ -40,5 +41,11 @@ public class CmsSiteServiceImpl implements CmsSiteService {
         queryResult.setTotal(page.getTotalElements());
         queryResult.setList(page.getContent());
         return queryResult;
+    }
+
+    @Override
+    public CmsSite get(String siteId) {
+        Optional<CmsSite> optional = cmsSiteRepository.findById(siteId);
+        return optional.orElse(null);
     }
 }

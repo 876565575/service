@@ -6,11 +6,11 @@ spring:
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,\
       classpath:/static/,classpath:/public/
-#  datasource:
-#    url: jdbc:mysql://www.wuhourong.top:3306/blog?useSSL=true
-#    driver-class-name: com.mysql.jdbc.Driver
-#    username: wu
-#    password: 19980122
+  datasource:
+    url: jdbc:mysql://www.wuhourong.top:3306/blog?useSSL=true
+    driver-class-name: com.mysql.jdbc.Driver
+    username: wu
+    password: 19980122
   data:
     mongodb:
       database: xc_cms

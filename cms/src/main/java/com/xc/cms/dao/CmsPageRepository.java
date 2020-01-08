@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <Description> <br>
@@ -24,5 +25,7 @@ public interface CmsPageRepository extends MongoRepository<CmsPage, String> {
     List<CmsPage> findByPageAliaseContains(String pageAliase);
 
     List<CmsPage> findByPageAliaseLike(String pageAliase);
+
+    Optional<CmsPage> findByPageNameAndPagePhysicalPathAndPageWebPath(String pageName, String pagePhysicalPath, String pageWebPath);
 }
 

@@ -11,6 +11,7 @@ import com.xc.course.mapper.TeachPlanMapper;
 import com.xc.course.service.CourseBaseService;
 import com.xc.model.course.CourseBase;
 import com.xc.model.course.TeachPlan;
+import com.xc.model.course.ext.CourseInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +34,10 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
     TeachPlanMapper teachPlanMapper;
 
     @Override
-    public PageInfo<CourseBase> findCourseBaseList(Integer page, Integer size, CourseBase courseBase) {
+    public PageInfo<CourseInfo> findCourseBaseList(Integer page, Integer size, CourseBase courseBase) {
         PageHelper.startPage(page, size);
-        QueryWrapper<CourseBase> queryWrapper = new QueryWrapper<>(courseBase);
-        List<CourseBase> courseBases = courseBaseMapper.selectList(queryWrapper);
-        return new PageInfo<>(courseBases);
+        List<CourseInfo> list = courseBaseMapper.findCourseInfoList(courseBase);
+        return new PageInfo<>(list);
     }
 
     @Override

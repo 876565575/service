@@ -1,6 +1,8 @@
 package com.xc.cmsclient.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,14 @@ public class RabbitmqConfig {
     @Bean
     public Binding binding(@Qualifier("queue") Queue queue, @Qualifier("exchange") Exchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey).noargs();
+    }
+
+    /**
+     * 使用jackson的序列化器
+     */
+    @Bean
+    public MessageConverter messageConverter(){
+        return new Jackson2JsonMessageConverter();
     }
 
 }

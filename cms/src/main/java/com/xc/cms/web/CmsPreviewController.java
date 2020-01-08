@@ -2,6 +2,8 @@ package com.xc.cms.web;
 
 import com.xc.cms.service.CmsPageService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,4 @@ public class CmsPreviewController {
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write(html.getBytes("UTF-8"));
     }
-
-
 }

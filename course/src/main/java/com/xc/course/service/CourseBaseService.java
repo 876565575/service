@@ -3,6 +3,7 @@ package com.xc.course.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xc.model.course.CourseBase;
+import com.xc.model.course.ext.CourseInfo;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public interface CourseBaseService extends IService<CourseBase> {
      * @param page 页码
      * @param size 每页大小
      * @param courseBase 条件
-     * @return PageInfo<CourseBase>
+     * @return PageInfo<CourseInfo>
      */
-    PageInfo<CourseBase> findCourseBaseList(Integer page, Integer size, CourseBase courseBase);
+    PageInfo<CourseInfo> findCourseBaseList(Integer page, Integer size, CourseBase courseBase);
 
     /**
      * 根据课程id查询课程基本信息

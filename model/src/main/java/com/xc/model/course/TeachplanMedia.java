@@ -18,6 +18,7 @@ public class TeachplanMedia implements Serializable {
     private String mediaFileOriginalName;
 
     private String mediaUrl;
+
     private String courseId;
 
 }

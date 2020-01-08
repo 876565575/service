@@ -15,7 +15,7 @@
     <description>Eureka</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>8</java.version>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
     </properties>
 

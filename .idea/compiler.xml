@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cms" />
-        <module name="common" />
-        <module name="eureka" />
-        <module name="model" />
         <module name="file" />
+        <module name="common" />
+        <module name="model" />
+        <module name="eureka" />
         <module name="cms-client" />
         <module name="course" />
       </profile>
@@ -21,7 +21,7 @@
       <module name="cms-client" target="1.8" />
       <module name="common" target="8" />
       <module name="course" target="1.8" />
-      <module name="eureka" target="1.8" />
+      <module name="eureka" target="8" />
       <module name="file" target="1.8" />
       <module name="manageCourse" target="1.8" />
       <module name="model" target="1.8" />

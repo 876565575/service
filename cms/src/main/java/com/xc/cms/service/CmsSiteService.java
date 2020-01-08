@@ -1,5 +1,6 @@
 package com.xc.cms.service;
 
+import com.xc.model.cms.CmsPage;
 import com.xc.model.cms.CmsSite;
 import com.xc.model.cms.response.QueryResult;
 
@@ -28,4 +29,11 @@ public interface CmsSiteService {
      * @return
      */
     QueryResult list(Integer pageNum, Integer pageSize);
+
+    /**
+     *
+     * @param siteId
+     * @return
+     */
+    CmsSite get(String siteId);
 }

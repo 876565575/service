@@ -10,7 +10,6 @@
         <option value="$PROJECT_DIR$/manageCourse/pom.xml" />
         <option value="$PROJECT_DIR$/course/pom.xml" />
         <option value="$PROJECT_DIR$/file/pom.xml" />
-        <option value="$PROJECT_DIR$/eureka/pom.xml" />
       </list>
     </option>
   </component>
@@ -58,7 +57,7 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8.0_211" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="13" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
 </project>
