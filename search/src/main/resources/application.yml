@@ -1,0 +1,12 @@
+server:
+  port: ${port:40100}
+spring:
+  application:
+    name: xc\u2010search\u2010service
+  data:
+    elasticsearch:
+      cluster-name: cluster
+      cluster-nodes: www.wuhourong.top:9300
+xuecheng:
+  elasticsearch:
+    hostlist: ${eshostlist:www.wuhourong.top:9200} #\u591A\u4E2A\u7ED3\u70B9\u4E2D\u95F4\u7528\u9017\u53F7\u5206\u9694

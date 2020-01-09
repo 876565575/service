@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/manageCourse/pom.xml" />
         <option value="$PROJECT_DIR$/course/pom.xml" />
         <option value="$PROJECT_DIR$/file/pom.xml" />
+        <option value="$PROJECT_DIR$/search/pom.xml" />
       </list>
     </option>
   </component>

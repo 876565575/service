@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cms" />
+        <module name="search" />
         <module name="file" />
         <module name="common" />
         <module name="model" />
@@ -25,6 +26,7 @@
       <module name="file" target="1.8" />
       <module name="manageCourse" target="1.8" />
       <module name="model" target="1.8" />
+      <module name="search" target="1.8" />
       <module name="service" target="8" />
     </bytecodeTargetLevel>
   </component>
@@ -39,6 +41,7 @@
       <module name="file" options="-parameters" />
       <module name="manageCourse" options="-parameters" />
       <module name="model" options="-parameters" />
+      <module name="search" options="-parameters" />
       <module name="service" options="-parameters" />
     </option>
   </component>
