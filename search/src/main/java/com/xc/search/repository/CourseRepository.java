@@ -4,6 +4,8 @@ import com.xc.model.course.CoursePub;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
+
 /**
  * @author : 吴后荣
  * @date : 2020/1/10 01:24
@@ -11,4 +13,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 @Mapper
 public interface CourseRepository extends ElasticsearchRepository<CoursePub, String> {
+    List<CoursePub> findByDescription(String description);
 }
