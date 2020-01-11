@@ -12,8 +12,8 @@
         <module name="common" />
         <module name="model" />
         <module name="eureka" />
-        <module name="cms-client" />
         <module name="course" />
+        <module name="cms-client" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

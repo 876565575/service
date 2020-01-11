@@ -1,40 +1,32 @@
 package com.xc.search;
 
-import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSONConverter;
 import cn.hutool.json.JSONUtil;
 import com.xc.model.course.CoursePub;
+import com.xc.search.config.HighLightResultMapper;
 import com.xc.search.repository.CourseRepository;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.cluster.metadata.AliasMetaData;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +39,9 @@ public class SearchApplicationTests {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    HighLightResultMapper highLightResultMapper;
 
     @Test
     public void contextLoads() {
@@ -96,7 +91,7 @@ public class SearchApplicationTests {
         //分词后 or 查询
         NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.queryStringQuery("vue真的很好用").field("description").field("name"))
-                .withQuery(QueryBuilders.rangeQuery("price").from(1).to(200))
+//                .withQuery(QueryBuilders.rangeQuery("price").from(1).to(200))
                 .withHighlightFields(
                         new HighlightBuilder.Field("name").preTags("<span style='color:red'>").postTags("</span>"),
                         new HighlightBuilder.Field("description").preTags("<span style='color:red'>").postTags("</span>")
@@ -129,12 +124,22 @@ public class SearchApplicationTests {
             }
         });
         coursePubs.forEach(System.out::println);
-
-//        Page<CoursePub> coursePubs2 = elasticsearchTemplate.queryForPage(nativeSearchQuery, CoursePub.class);
-//        coursePubs2.forEach(System.out::println);
-
-
-
     }
 
+    @Test
+    public void searchHighLight() {
+        //分词后 or 查询
+        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.queryStringQuery("vue真的很好用").field("description").field("name"))
+                .withFilter(QueryBuilders.rangeQuery("price").from(1).to(200))
+                .withSort(SortBuilders.fieldSort("price").order(SortOrder.DESC))
+                .withPageable(PageRequest.of(0, 10))
+                .withHighlightFields(
+                        new HighlightBuilder.Field("name").preTags("<span style='color:red'>").postTags("</span>"),
+                        new HighlightBuilder.Field("description").preTags("<span style='color:red'>").postTags("</span>")
+                )
+                .build();
+        Page<CoursePub> coursePubs = elasticsearchTemplate.queryForPage(nativeSearchQuery, CoursePub.class, highLightResultMapper);
+        coursePubs.forEach(System.out::println);
+    }
 }

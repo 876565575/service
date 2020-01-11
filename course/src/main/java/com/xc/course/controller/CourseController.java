@@ -9,10 +9,7 @@ import com.xc.common.model.response.QueryResult;
 import com.xc.common.model.response.ResponseResult;
 import com.xc.course.feign.CmsPageClient;
 import com.xc.course.mapper.CourseBaseMapper;
-import com.xc.course.service.CourseBaseService;
-import com.xc.course.service.CourseMarketService;
-import com.xc.course.service.CoursePicService;
-import com.xc.course.service.TeachPlanService;
+import com.xc.course.service.*;
 import com.xc.model.cms.CmsPage;
 import com.xc.model.course.CourseBase;
 import com.xc.model.course.CourseMarket;
@@ -43,7 +40,7 @@ import java.util.Map;
  * @description :
  */
 
-@Api(tags = "课程基本信息API")
+@Api(tags = "课程信息API")
 @RestController
 @RequestMapping("/course")
 public class CourseController {
@@ -81,6 +78,9 @@ public class CourseController {
 
     @Autowired
     CmsPageClient cmsPageClient;
+
+    @Autowired
+    CoursePubService coursePubService;
 
     @ApiOperation("分页查询课程基本信息")
     @ApiImplicitParams({
@@ -210,28 +210,21 @@ public class CourseController {
         return ResponseEntity.ok(previewUrl + pageId);
     }
 
-    @ApiOperation("页面发布，返回访问地址")
+    @ApiOperation("课程发布，课程详情页静态化并发布，返回访问地址")
     @ApiImplicitParam(name = "courseId", value = "课程id", paramType = "path", required = true, dataTypeClass = String.class)
     @PostMapping("/publish/{courseId}")
-    public ResponseEntity publish(@PathVariable("courseId") String courseId) {
-
-        CourseBase courseBase = courseBaseService.getById(courseId);
-        CmsPage cmsPage = new CmsPage();
-        cmsPage.setSiteId(siteId);
-        cmsPage.setTemplateId(templateId);
-        cmsPage.setPageName(courseId + ".html");
-        cmsPage.setPageWebPath(pageWebPath);
-        cmsPage.setPagePhysicalPath(pagePhysicalPath);
-        cmsPage.setDataUrl(dataUrl + courseId);
-        cmsPage.setPageAliase(courseBase.getName());
-        cmsPage.setPageType("2");
-        cmsPage.setPageCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
-        String url = cmsPageClient.publishPage(cmsPage);
-
-        //修改课程状态为已发布
-        courseBase.setStatus("202002");
-        courseBaseService.updateById(courseBase);
-
+    public ResponseEntity publish(@PathVariable(value = "courseId") String courseId) {
+        String url = coursePubService.publish(courseId);
         return ResponseEntity.ok(url);
     }
+
+    @ApiOperation("课程下架，删除课程详情页和coursePub数据")
+    @ApiImplicitParam(name = "courseId", value = "课程id", paramType = "path", required = true, dataTypeClass = String.class)
+    @DeleteMapping("/deleteCoursePub/{courseId}")
+    public ResponseEntity deleteCoursePub(@PathVariable(value = "courseId") String courseId) {
+        coursePubService.delete(courseId);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -18,6 +18,9 @@ spring:
       database: xc_cms
       host: www.wuhourong.top
       port: 27017
+    elasticsearch:
+      cluster-name: cluster
+      cluster-nodes: www.wuhourong.top:9300
   mail:
     host: smtp.qq.com
     username: 876565575@qq.com

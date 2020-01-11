@@ -1,4 +1,4 @@
-package com.xc.search.repository;
+package com.xc.course.repository;
 
 import com.xc.model.course.CoursePub;
 import org.apache.ibatis.annotations.Mapper;

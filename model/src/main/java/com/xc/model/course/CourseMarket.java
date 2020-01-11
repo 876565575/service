@@ -49,7 +49,7 @@ public class CourseMarket {
     /**
      * 价格
      */
-    private double price;
+    private float price;
 
     /**
      * 原价
