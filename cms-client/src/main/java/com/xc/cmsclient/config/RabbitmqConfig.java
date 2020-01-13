@@ -16,18 +16,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfig {
 
-    @Value("${xc.mq.routingKey}")
-    public String routingKey;
+    @Value("${xc.mq.publishRoutingKey}")
+    public String publishRoutingKey;
 
-    @Value("${xc.mq.queue}")
-    public String queue;
+    @Value("${xc.mq.publishQueue}")
+    public String publishQueue;
+
+    @Value("${xc.mq.deleteRoutingKey}")
+    public String deleteRoutingKey;
+
+    @Value("${xc.mq.deletehQueue}")
+    public String deletehQueue;
 
     @Value("${xc.mq.exchange}")
     private String exchange;
 
-    @Bean("queue")
-    public Queue queue() {
-        return new Queue(queue);
+    @Bean("publishQueue")
+    public Queue publishQueue() {
+        return new Queue(publishQueue);
+    }
+
+    @Bean("deleteQueue")
+    public Queue deleteQueue() {
+        return new Queue(deletehQueue);
     }
 
     @Bean("exchange")
@@ -36,8 +47,13 @@ public class RabbitmqConfig {
     }
 
     @Bean
-    public Binding binding(@Qualifier("queue") Queue queue, @Qualifier("exchange") Exchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey).noargs();
+    public Binding binding1(@Qualifier("publishQueue") Queue queue, @Qualifier("exchange") Exchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(publishRoutingKey).noargs();
+    }
+
+    @Bean
+    public Binding binding2(@Qualifier("deleteQueue") Queue queue, @Qualifier("exchange") Exchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(deleteRoutingKey).noargs();
     }
 
     /**

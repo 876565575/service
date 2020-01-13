@@ -236,7 +236,7 @@ class CmsPageServiceImpl implements CmsPageService {
         this.generateHtml(pageId);
         Map<String, String> map = new HashMap<>();
         map.put("pageId", pageId);
-        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "cms",map);
+        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "CmsPublish",map);
     }
 
     @Override
@@ -249,5 +249,18 @@ class CmsPageServiceImpl implements CmsPageService {
             cmsPage.setPageId(optional.get().getPageId());
             cmsPageRepository.save(cmsPage);
         }
+    }
+
+    @Override
+    public Optional<CmsPage> findByPageName(String pageName) {
+        return cmsPageRepository.findByPageName(pageName);
+    }
+
+
+    @Override
+    public void deletePageFile(CmsPage cmsPage) {
+        Map<String, String> map = new HashMap<>();
+        map.put("pageId", cmsPage.getPageId());
+        rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE, "CmsDelete",map);
     }
 }

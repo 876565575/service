@@ -4,6 +4,8 @@ import com.xc.model.cms.CmsPage;
 import com.xc.model.cms.request.PageQueryRequest;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 /**
  * <Description> <br>
  *
@@ -86,4 +88,13 @@ public interface CmsPageService {
      * @param cmsPage
      */
     void save(CmsPage cmsPage);
+
+    Optional<CmsPage> findByPageName(String pageName);
+
+    /**
+     * 删除页面文件
+     * @param cmsPage
+     */
+    void deletePageFile(CmsPage cmsPage);
+
 }

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 /**
  * <Description> <br>
  *
@@ -112,5 +114,17 @@ public class CmsPageController {
         String url = cmsSite.getSiteDomain() + ":" + cmsSite.getSitePort() + cmsPage.getPageWebPath() + cmsPage.getPageName();
 
         return ResponseEntity.ok(url);
+    }
+
+    @ApiOperation("删除静态页")
+    @DeleteMapping("/deletePageFile/{courseId}")
+    public ResponseEntity deletePageFile(@PathVariable("courseId") String courseId) {
+        Optional<CmsPage> optional = cmsPageService.findByPageName(courseId + ".html");
+        if (optional.isPresent()) {
+            cmsPageService.deletePageFile(optional.get());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+
     }
 }

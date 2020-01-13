@@ -19,9 +19,15 @@ public class ConsumerPostPage {
     @Autowired
     PageService pageService;
 
-    @RabbitListener(queues = {"${xc.mq.queue}"})
+    @RabbitListener(queues = {"${xc.mq.publishQueue}"})
     public void postPage(Map<String, String> map) {
         String pageId = map.get("pageId");
         pageService.publishPage(pageId);
+    }
+
+    @RabbitListener(queues = {"${xc.mq.deleteQueue}"})
+    public void deletePage(Map<String, String> map) {
+        String pageId = map.get("pageId");
+        pageService.deletePage(pageId);
     }
 }

@@ -27,5 +27,7 @@ public interface CmsPageRepository extends MongoRepository<CmsPage, String> {
     List<CmsPage> findByPageAliaseLike(String pageAliase);
 
     Optional<CmsPage> findByPageNameAndPagePhysicalPathAndPageWebPath(String pageName, String pagePhysicalPath, String pageWebPath);
+
+    Optional<CmsPage> findByPageName(String pageName);
 }
 

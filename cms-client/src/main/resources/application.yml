@@ -67,6 +67,8 @@ logging:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} %msg%n'
 xc:
   mq:
-    routingKey: cms
-    queue: queue1
+    publishRoutingKey: CmsPublish
+    publishQueue: PublishQueue
+    deleteRoutingKey: CmsDelete
+    deleteQueue: DeleteQueue
     exchange: exchange

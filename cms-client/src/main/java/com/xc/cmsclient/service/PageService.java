@@ -1,5 +1,6 @@
 package com.xc.cmsclient.service;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
@@ -40,6 +41,10 @@ public class PageService {
     @Autowired
     GridFSBucket gridFSBucket;
 
+    /**
+     * 将静态页面下载保存至服务器
+     * @param pageId
+     */
     public void publishPage(String pageId) {
         //获取页面信息
         Optional<CmsPage> cmsPageOptional =  cmsPageRepository.findById(pageId);
@@ -85,6 +90,32 @@ public class PageService {
             }
 
         }
+    }
+
+    /**
+     * 删除静态页面
+     * @param pageId
+     */
+    public void deletePage(String pageId) {
+        //获取页面信息
+        Optional<CmsPage> cmsPageOptional =  cmsPageRepository.findById(pageId);
+        if (!cmsPageOptional.isPresent()) {
+            log.error("cmsPage is null，pageId: {}", pageId);
+            return;
+        }
+        CmsPage cmsPage = cmsPageOptional.get();
+
+        Optional<CmsSite> optionalCmsSite = cmsSiteRepository.findById(cmsPage.getSiteId());
+        if (!optionalCmsSite.isPresent()) {
+            log.error("cmsSite is null，siteId: {}", cmsPage.getSiteId());
+            return;
+        }
+        CmsSite cmsSite = optionalCmsSite.get();
+        //拼接页面物理路径
+        String targetPath = cmsSite.getSitePhysicalPath() + cmsPage.getPageWebPath() + cmsPage.getPageName();
+
+        //删除页面
+        FileUtil.del(targetPath);
     }
 
     public InputStream getFile(String fileId) {
