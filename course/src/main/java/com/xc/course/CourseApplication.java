@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @EnableFeignClients
 @MapperScan("com.xc.course.mapper")
+@MapperScan("com.xc.course.repository")
 public class CourseApplication {
     public static void main(String[] args) {
         SpringApplication.run(CourseApplication.class, args);

@@ -131,20 +131,21 @@ public class CoursePub implements Serializable {
     /**
      * 课程发布时间
      */
-    @Field(type =  FieldType.Date)
+    @Field(type =  FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(value = "pub_time")
     private String pubTime;
 
     /**
      * 课程有效期-开始时间
      */
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "start_time")
-    private LocalDateTime startTime;
+    private String startTime;
 
     /**
      * 课程有效期-结束时间
      */
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "end_time")
-    private LocalDateTime endTime;
+    private String endTime;
 }

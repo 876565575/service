@@ -27,6 +27,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,9 @@ public class SearchApplicationTests {
 
         boolean flag = elasticsearchTemplate.createIndex(CoursePub.class);
         System.out.println("flag = " + flag);
+
+        flag = elasticsearchTemplate.putMapping(CoursePub.class);
+        System.out.println("flag = " + flag);
     }
 
     @Test
@@ -79,6 +84,9 @@ public class SearchApplicationTests {
         coursePub.setName("vue.js");
         coursePub.setDescription("前端框架，vue.js，学习难度低，易上手，社区强大");
         coursePub.setPrice(80f);
+        coursePub.setSt("01");
+        coursePub.setMt("01");
+        coursePub.setPubTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         courseRepository.save(coursePub);
     }
 
@@ -131,7 +139,8 @@ public class SearchApplicationTests {
         //分词后 or 查询
         NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.queryStringQuery("vue真的很好用").field("description").field("name"))
-                .withFilter(QueryBuilders.rangeQuery("price").from(1).to(200))
+                .withFilter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("mt", "01"))
+                        .must(QueryBuilders.rangeQuery("price").from(1).to(200)))
                 .withSort(SortBuilders.fieldSort("price").order(SortOrder.DESC))
                 .withPageable(PageRequest.of(0, 10))
                 .withHighlightFields(
@@ -141,5 +150,16 @@ public class SearchApplicationTests {
                 .build();
         Page<CoursePub> coursePubs = elasticsearchTemplate.queryForPage(nativeSearchQuery, CoursePub.class, highLightResultMapper);
         coursePubs.forEach(System.out::println);
+    }
+
+    @Test
+    public void test() {
+        test test = new test();
+        System.out.println("test = " + test);
+    }
+
+    public class test {
+        public int a;
+        public Integer b;
     }
 }
